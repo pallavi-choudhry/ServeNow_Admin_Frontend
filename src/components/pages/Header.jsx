@@ -11,10 +11,10 @@ function Header({ user, setUser }) {
 
   return (
     <div className="bg-white shadow p-4 flex justify-between items-center">
-      <h1 className="text-xl font-semibold">Admin Panel</h1>
+      <h1 className="text-xl font-bold">Admin Panel</h1>
       <div className="flex items-center">
         <span className="mr-4">
-          {user ? user.name : 'Guest'}
+          {user ? user.name : ''}
         </span>
         <button
           onClick={handleLogout}

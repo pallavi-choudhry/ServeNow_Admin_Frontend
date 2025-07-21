@@ -1,86 +1,95 @@
-// import React from 'react';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
-// function ProviderVerification({ providers, setProviders }) {
-//   const handleApprove = (id) => {
-//     setProviders(providers.map((p) => (p.id === id ? { ...p, status: 'Approved' } : p)));
-//   };
+function ProviderVerification() {
+  const [services, setServices] = useState([]);
 
-//   const handleEdit = (id, updatedProvider) => {
-//     setProviders(providers.map((p) => (p.id === id ? { ...updatedProvider, id } : p)));
-//   };
+  const fetchPendingServices = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/admin/provider-services/pending", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      setServices(response.data);
+      console.log("this is data from frontend ",response.data);
+    } catch (error) {
+      console.error("Error fetching pending services:", error);
+    }
+  };
 
-//   const addProvider = () => {
-//     const name = prompt('Enter provider name:');
-//     const license = prompt('Enter license number:');
-//     if (name && license) {
-//       setProviders([...providers, { id: providers.length + 1, name, license, status: 'Pending' }]);
-//     }
-//   };
+  const handleAction = async (serviceId, status) => {
+    try {
+      await axios.patch(
+        `http://localhost:5000/api/provider-services/status/${serviceId}`,
+        { status },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      setServices(services.filter((s) => s._id !== serviceId));
+    } catch (error) {
+      console.error(`Failed to ${status} service:`, error);
+    }
+  };
 
-//   return (
-//     <div className="ml-72 mt-6 px-6">
-//       <h2 className="text-2xl font-bold mb-4">Provider Verification</h2>
-//       <table className="w-full bg-white shadow rounded-lg">
-//         <thead>
-//           <tr className="bg-gray-200">
-//             <th className="p-3">Name</th>
-//             <th className="p-3">License</th>
-//             <th className="p-3">Status</th>
-//             <th className="p-3">Actions</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {providers.map((provider) => (
-//             <tr key={provider.id}>
-//               <td className="p-3">{provider.name}</td>
-//               <td className="p-3">{provider.license}</td>
-//               <td className="p-3">{provider.status}</td>
-//               <td className="p-3">
-//                 <button
-//                   className="bg-green-500 text-white px-3 py-1 rounded mr-2"
-//                   onClick={() => handleApprove(provider.id)}
-//                   disabled={provider.status === 'Approved'}
-//                 >
-//                   Approve
-//                 </button>
-//                 <button
-//                   className="bg-blue-500 text-white px-3 py-1 rounded"
-//                   onClick={() => {
-//                     const newName = prompt('Enter new name:', provider.name);
-//                     if (newName) handleEdit(provider.id, { ...provider, name: newName });
-//                   }}
-//                 >
-//                   Edit
-//                 </button>
-//               </td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
+  useEffect(() => {
+    fetchPendingServices();
+  }, []);
 
-//       {/* ✅ Add spacing and layout fix for button */}
-//       <div className="mt-6 flex justify-end">
-//         <button
-//           className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded shadow-md transition"
-//           onClick={addProvider}
-//         >
-//           Add Provider
-//         </button>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default ProviderVerification;
-
-import React from 'react'
-
-function  Provider () {
   return (
-    <div>
-      <h1>Welcome Dashboard </h1>
+<div className="mt-6 px-6">
+
+      <h2 className="text-2xl font-bold mb-4">Provider Service Requests</h2>
+      {services.length === 0 ? (
+        <p className="text-gray-600">No pending service requests.</p>
+      ) : (
+        <table className="w-full bg-white shadow rounded-lg">
+          <thead>
+            <tr className="bg-gray-200">
+              <th className="p-3">Provider</th>
+              <th className="p-3">Service</th>
+              <th className="p-3">Category</th>
+              <th className="p-3">Price</th>
+              <th className="p-3">Location</th>
+              <th className="p-3">License No.</th>
+              <th className="p-3">Status</th>
+              <th className="p-3">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {services.map((service) => (
+              <tr key={service._id}>
+                <td className="p-3">{service.providerId?.name || "N/A"}</td>
+                <td className="p-3">{service.serviceName}</td>
+                <td className="p-3">{service.category || "N/A"}</td>
+                <td className="p-3">{service.price ? `$${service.price}` : "N/A"}</td>
+                <td className="p-3">{service.location || "N/A"}</td>
+                <td className="p-3">{service.licenseNumber || "N/A"}</td>
+                <td className="p-3">{service.status}</td>
+                <td className="p-3">
+                  <button
+                    className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded mr-2"
+                    onClick={() => handleAction(service._id, "approved")}
+                  >
+                    Approve
+                  </button>
+                  <button
+                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
+                    onClick={() => handleAction(service._id, "rejected")}
+                  >
+                    Reject
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
-  )
+  );
 }
 
-export default   Provider 
+export default ProviderVerification;

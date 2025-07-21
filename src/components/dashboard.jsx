@@ -8,7 +8,8 @@ import PlatformManagement from '../components/pages/PlatformManagement';
 
 function Dashboard({ user, setUser, activeSection, setActiveSection, providers, setProviders, users, setUsers, faqs, setFaqs }) {
   return (
-    <div className="flex min-h-screen">
+    <div className="flex-1">
+
       <Sidebar setActiveSection={setActiveSection} />
       <div className="flex-1 ml-64"> {/* Adjusted for sidebar width */}
         <Header user={user} setUser={setUser} />
