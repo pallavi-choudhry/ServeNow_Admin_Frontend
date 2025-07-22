@@ -149,10 +149,13 @@ const Login = () => {
         }
       });
 
-      if (response.status === 200) {
-        setMessage('Login successful!');
-        navigate('/dashboard');
-      }
+     if (response.status === 200) {
+      const { token } = response.data; // Extract token from response
+      localStorage.setItem("token", token); // Save to localStorage
+      console.log("Stored token:", token); // Debug log
+      setMessage('Login successful!');
+      navigate('/dashboard');
+    }
     } catch (error) {
       console.error('Login error:', error.response?.data || error.message);
       setMessage(error.response?.data?.message || 'Login failed. Please check your credentials.');
