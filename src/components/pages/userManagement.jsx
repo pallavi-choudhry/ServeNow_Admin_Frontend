@@ -3,7 +3,7 @@ import React from 'react';
 function UserManagement({ users, setUsers }) {
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4">User Management</h2>
+      {/* <h2 className="text-2xl font-bold mb-4">User Management</h2> */}
       {(!users || !Array.isArray(users) || users.length === 0) ? (
         <p className="text-gray-500">No users available.</p>
       ) : (

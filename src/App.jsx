@@ -9,16 +9,11 @@ function App() {
   const [user, setUser] = useState(null); // Manage user state for login/logout
   const [activeSection, setActiveSection] = useState('Provider');
   const [providers, setProviders] = useState();
-  //   { id: 1, name: 'John Doe', license: 'LIC123', status: 'Pending' },
-  //   { id: 2, name: 'Jane Smith', license: 'LIC456', status: 'Pending' },
-  // ]);
+ 
   const [users, setUsers] = useState();
-  //   { id: 1, username: 'user1', activity: 'Active', issues: 'None' },
-  //   { id: 2, username: 'user2', activity: 'Inactive', issues: 'Reported' },
-  // ]);
+  
   const [faqs, setFaqs] = useState();
-  //   { id: 1, question: 'What is the service?', answer: 'It is a platform for providers.' },
-  // ]);
+ 
 
   return (
     <Router>

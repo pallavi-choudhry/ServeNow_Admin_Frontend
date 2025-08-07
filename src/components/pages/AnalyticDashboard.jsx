@@ -77,26 +77,8 @@ function AnalyticDashboard() {
 
   return (
     <div className="mt-6 px-6">
-      <h2 className="text-2xl font-bold mb-4">Analytics Dashboard</h2>
-      <div className="grid grid-cols-2 gap-4">
-        <div className="bg-white p-4 shadow rounded-lg">
-          <h3 className="text-lg font-semibold mb-2">Demand by Region</h3>
-          <div className="h-64">
-            <canvas ref={demandChartRef}></canvas>
-          </div>
-        </div>
-        <div className="bg-white p-4 shadow rounded-lg">
-          <h3 className="text-lg font-semibold mb-2">User Engagement</h3>
-          <div className="h-64">
-            <canvas ref={engagementChartRef}></canvas>
-          </div>
-        </div>
-        <div className="bg-white p-4 shadow rounded-lg col-span-2">
-          <h3 className="text-lg font-semibold">Revenue Report</h3>
-          <p>Total Revenue: $50,000</p>
-          <p>Monthly Growth: 15%</p>
-        </div>
-      </div>
+      {/* <h2 className="text-2xl font-bold mb-4">Analytics Dashboard</h2> */}
+      
     </div>
   );
 }

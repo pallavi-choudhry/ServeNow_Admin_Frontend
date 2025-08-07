@@ -1,24 +1,35 @@
 import React from 'react';
 
-function Sidebar({ setActiveSection }) {
-  const sections = ['Provider', 'User Management', 'Analytics Dashboard', 'Platform Management'];
+const Sidebar = ({ setActiveSection }) => {
+  const sections = [
+    { name: 'Provider Request', icon: '🏠' },
+    { name: 'User Management', icon: '👥' },
+    { name: 'Analytics Dashboard', icon: '📊' },
+    { name: 'Platform Management', icon: '⚙️' },
+    { name: 'All Provider Information', icon: '📜' },
+    
+  ];
 
   return (
-    <div className="w-64 bg-gray-800 text-white h-screen p-6 fixed top-0 left-0 overflow-y-auto">
-      <h2 className="text-2xl font-bold mb-8">Admin Dashboard</h2>
-      <ul className="space-y-4">
-        {sections.map((section) => (
-          <li
-            key={section}
-            className="cursor-pointer hover:bg-gray-700 p-3 rounded-lg transition-colors duration-200 text-lg"
-            onClick={() => setActiveSection(section)}
-          >
-            {section}
-          </li>
-        ))}
-      </ul>
+    <div className="fixed top-0 left-0 h-full w-64 bg-gray-800 text-white flex flex-col">
+      <div className="p-4 text-2xl font-bold">Admin Dashboard</div>
+      <nav className="flex-1">
+        <ul className="space-y-2 p-4">
+          {sections.map((section) => (
+            <li key={section.name}>
+              <button
+                className="w-full flex items-center gap-3 p-3 text-left hover:bg-gray-700 rounded transition-colors"
+                onClick={() => setActiveSection(section.name)}
+              >
+                <span className="text-lg">{section.icon}</span>
+                <span>{section.name}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </nav>
     </div>
   );
-}
+};
 
-export default Sidebar;
+export default Sidebar;   
