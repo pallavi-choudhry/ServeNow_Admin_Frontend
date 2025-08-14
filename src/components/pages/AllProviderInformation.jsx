@@ -1,27 +1,31 @@
 import React, { useState, useEffect } from 'react';
 
-
-
-const AllProviderInformation = ({ providers: initialProviders }) => {
+const AllProviderInformation = ({ providers: initialProviders, Token }) => {
   const [services, setServices] = useState(initialProviders || []);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Fallback to localStorage if Token prop is not provided
+  const token = Token || localStorage.getItem('token');
+
   useEffect(() => {
     const fetchServices = async () => {
       try {
+        if (!token) {
+          throw new Error('No authentication token available');
+        }
+
         setLoading(true);
         const response = await fetch('http://localhost:5000/api/admin/provider-services/verified', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            // Add authorization header if needed
-            // 'Authorization': `Bearer ${yourToken}`
+            'Authorization': `Bearer ${token}`,
           },
         });
 
         if (!response.ok) {
-          throw new Error('Failed to fetch service data');
+          throw new Error(`Failed to fetch service data: ${response.statusText}`);
         }
 
         const data = await response.json();
@@ -39,22 +43,25 @@ const AllProviderInformation = ({ providers: initialProviders }) => {
     } else {
       setLoading(false);
     }
-  }, [initialProviders]);
+  }, [initialProviders, token]);
 
   const updateServiceStatus = async (serviceId, newStatus) => {
     try {
+      if (!token) {
+        throw new Error('No authentication token available');
+      }
+
       const response = await fetch(`http://localhost:5000/api/admin/provider-services/status/${serviceId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          // Add authorization header if needed
-          // 'Authorization': `Bearer ${yourToken}`
+          'Authorization': `Bearer ${token}`, // Uncomment and use token
         },
         body: JSON.stringify({ status: newStatus }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update service status');
+        throw new Error(`Failed to update service status: ${response.statusText}`);
       }
 
       setServices((prevServices) =>
@@ -80,13 +87,11 @@ const AllProviderInformation = ({ providers: initialProviders }) => {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service ID</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Provider Name</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Provider Email</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mobile NO </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mobile NO</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                             
-
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -96,10 +101,8 @@ const AllProviderInformation = ({ providers: initialProviders }) => {
                     <td className="px-6 py-4 whitespace-nowrap">{service._id}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{service.providerId?.name || 'N/A'}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{service.providerId?.email || 'N/A'}</td>
-                                                            <td className="px-6 py-4 whitespace-nowrap">{service.contact || 'N/A'}</td>
-
+                    <td className="px-6 py-4 whitespace-nowrap">{service.contact || 'N/A'}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{service.category || 'N/A'}</td>
-
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
                         className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
@@ -127,7 +130,7 @@ const AllProviderInformation = ({ providers: initialProviders }) => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="7" className="px-6 py-4 text-center text-gray-500">
+                  <td colSpan="8" className="px-6 py-4 text-center text-gray-500">
                     No service information available
                   </td>
                 </tr>
