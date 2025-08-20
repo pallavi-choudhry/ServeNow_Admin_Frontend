@@ -88,7 +88,7 @@ const AllProviderInformation = ({ providers: initialProviders, Token }) => {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Provider Name</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Provider Email</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mobile NO</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">serviceType</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
@@ -102,7 +102,7 @@ const AllProviderInformation = ({ providers: initialProviders, Token }) => {
                     <td className="px-6 py-4 whitespace-nowrap">{service.providerId?.name || 'N/A'}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{service.providerId?.email || 'N/A'}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{service.contact || 'N/A'}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{service.category || 'N/A'}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{service.serviceType || 'N/A'}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
                         className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${

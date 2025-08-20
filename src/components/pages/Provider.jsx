@@ -73,7 +73,7 @@ function ProviderVerification() {
               <tr className="bg-gray-100 text-gray-700">
                 <th className="p-4 text-left font-semibold">Provider</th>
                 <th className="p-4 text-left font-semibold">Service</th>
-                <th className="p-4 text-left font-semibold">Category</th>
+                <th className="p-4 text-left font-semibold">serviceType</th>
                 <th className="p-4 text-left font-semibold">Price</th>
                 <th className="p-4 text-left font-semibold">Location</th>
                 <th className="p-4 text-left font-semibold">Status</th>
@@ -85,7 +85,7 @@ function ProviderVerification() {
                 <tr key={service._id} className="border-t hover:bg-gray-50">
                   <td className="p-4">{service.providerId?.name || "N/A"}</td>
                   <td className="p-4">{service.serviceName}</td>
-                  <td className="p-4">{service.category || "N/A"}</td>
+                  <td className="p-4">{service.serviceType || "N/A"}</td>
                   <td className="p-4">₹{service.price}</td>
                   <td className="p-4">{service.location}</td>
                   <td className="p-4 capitalize">{service.status}</td>
@@ -113,7 +113,7 @@ function ProviderVerification() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <p><strong>Provider:</strong> {selectedService.providerId?.name || "N/A"}</p>
             <p><strong>Service:</strong> {selectedService.serviceName}</p>
-            <p><strong>Category:</strong> {selectedService.category || "N/A"}</p>
+            <p><strong>serviceType:</strong> {selectedService.serviceType || "N/A"}</p>
             <p><strong>Price:</strong> ₹{selectedService.price}</p>
             <p><strong>Location:</strong> {selectedService.location}</p>
             <p><strong>Contact:</strong> {selectedService.contact || "N/A"}</p>
